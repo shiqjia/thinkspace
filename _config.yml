@@ -16,7 +16,7 @@
 theme: jekyll-theme-so-simple
 # remote_theme: mmistakes/so-simple-theme
 locale: zh-CHS
-title: "黑鹰计划"
+title: "寒鸦行动"
 description: "Show cases our plans"
 baseurl: /thinkspace # the subpath of your site, e.g. "/blog"
 url: https://shiqijia.github,io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
