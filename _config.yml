@@ -19,7 +19,7 @@ locale: zh-CHS
 title: "寒鸦行动"
 description: "Show cases our plans"
 baseurl: /thinkspace # the subpath of your site, e.g. "/blog"
-url: https://shiqijia.github,io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url: https://shiqijia.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 logo: # path of site logo, e.g. "/images/logo.png"
 date_format: "%B %-d, %Y"
 read_time: true # reading time estimates, e.g. true
