@@ -15,12 +15,12 @@ last_modified_at: 2019-03-17T13:57:52-17:00
 
 ### 基础模型
 #### 特征表达
-\(t_i\) 表示低i个特征组，\(K_i\)表示特征组i的维度(特征组i包含K个唯一的可能取值)，\(t_i[j]\) 表示特征组i的第j个元素,\(\sum_{j=1}^{K_i}t_i[j] = k\) 当k=1时为one-hot向量，当k>1时为muti-hot向量。一条样本数据可以被表示成：\(x = [t_{1}^{T},t_{2}^{T},....,t_{M}^{T}]\)，其中M表示特征组的个数。图示如下：  
+$$t_i$$ 表示低i个特征组，$$K_i$$表示特征组i的维度(特征组i包含K个唯一的可能取值)，$$t_i[j]$$ 表示特征组i的第j个元素,$$\sum_{j=1}^{K_i}t_i[j] = k$$当k=1时为one-hot向量，当k>1时为muti-hot向量。一条样本数据可以被表示成：$$x = [t_{1}^{T},t_{2}^{T},....,t_{M}^{T}]$$，其中M表示特征组的个数。图示如下：  
 ![image]({{'images/picture/DIN/DIN_feature.png'| relative_url}})
 #### 模型结构
 ![image]({{'images/picture/DIN/DIN_baseModel.png'| relative_url}})  
 - embedding layer
-    - 将高维向量映射到低维。如果特征是one-hot的，那么得到一个单独的embedding向量为ei；如果特征是muti-hot的，得到embeding向量组成的list,\(\{e_{i_{1}},e_{i_{2}},...,e_{i_{k}}\}\)
+    - 将高维向量映射到低维。如果特征是one-hot的，那么得到一个单独的embedding向量为ei；如果特征是muti-hot的，得到embeding向量组成的list,$${e_{i_{1}},e_{i_{2}},...,e_{i_{k}}$$
 - Pooling layer and Concat layer
     - 由于每个用户muti-hot的特征不同，embeding向量长度也不同
     - 所以要进行pooling操作，一般是max/avg pooling
@@ -28,7 +28,7 @@ last_modified_at: 2019-03-17T13:57:52-17:00
 - MLP
     - 全连接网络，用于学习特征之间的关系
 - Loss
-    - 交叉熵：![image]({{'/images/picture/DIN/DIN_lossFuction.png'| relative_url}}) 
+    - 交叉熵：![image]({{'/images/picture/DIN/DIN_lossFuction.png' | relative_url}}) 
     
 
 #### 存在问题  
@@ -55,17 +55,17 @@ last_modified_at: 2019-03-17T13:57:52-17:00
 ![image]({{'images/picture/DIN/DIN_model.png'| relative_url}})  
 将用户在不同商品上的行为特征embedding分别和广告特征embeding做內积，将运算结果和这两个embedding进行concat之后丢进网络模型，得到1个输出作为权重。再将这个权重分别给到对应计算的商品，再丢进网络进行运算。公式如下：  
 ![image]({{'images/picture/DIN/DIN_function.png'| relative_url}})  
-其中，\(v_A\)表示候选广告embedding，\(e_j\)表示用户行为embedding,a(.)是一个前馈神经网络，输出为activation weight。(借鉴自attention,不再要求 \(\sum_{i}w_i =1\)，将得到的\(v_U\) 看做是兴趣程度）
+其中，$$v_A$$表示候选广告embedding，$$e_j$$表示用户行为embedding,a(.)是一个前馈神经网络，输出为activation weight。(借鉴自attention,不再要求 $$\sum_{i}w_i =1$$，将得到的$$v_U$$ 看做是兴趣程度）
  
 #### 训练技巧  
 - mini-batch粒度的正则  
   ![image]({{'images/picture/DIN/DIN_regulation1.png'| relative_url}})  
-  \(w_j\)表示第j个embedding向量，\(I(x_j != 0))\)表示样本x是否有特征j,\(n_j\)表示特征j在数据集中出现的次数。也可以改写成：  
+  $$w_j$$表示第j个embedding向量，$$I(x_j != 0))$$表示样本x是否有特征j,$$n_j$$表示特征j在数据集中出现的次数。也可以改写成：  
   ![image]({{'images/picture/DIN/DIN_regulation1.png'| relative_url}})  
   ![image]({{'images/picture/DIN/DIN_regulation2.png' | relative_url}})  
   B表示mini-batch  
   ![image]({{'images/picture/DIN/DIN_regulation3.png'| relative_url}})  
-  \(\alpha_{mj}\)表示这个batch是否至少有一个样本x，包含特征j  
+  $$\alpha_{mj}$$表示这个batch是否至少有一个样本x，包含特征j  
   权重更新公式如下： 
   ![image]({{'images/picture/DIN/DIN_regulation4.png'| relative_url}}) 
 - 激活函数Dice  
