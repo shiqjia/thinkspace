@@ -9,7 +9,8 @@ last_modified_at: 2019-03-26T13:57:52-17:00
 ---
 
 ## Deep & Cross Network for Ad Click Predictions
-    
+google在2017年提出的Deep&Cross Network模型简介
+   
 ### 背景
 特征工程一直是许多预测模型成功的关键，但是现有模型还是存在一些不足：
 - DNN在特征非常稀疏的情况下，几乎没有什么特征交叉，这时只能达到线性模型的效果
