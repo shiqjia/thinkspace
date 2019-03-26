@@ -8,22 +8,22 @@ tags:
 last_modified_at: 2019-03-26T13:57:52-17:00
 ---
 
-## Deep & Cross Network for Ad Click Predictions
+# Deep & Cross Network for Ad Click Predictions
 google在2017年提出的Deep&Cross Network模型简介
    
-### 背景
+## 背景
 特征工程一直是许多预测模型成功的关键，但是现有模型还是存在一些不足：
 - DNN在特征非常稀疏的情况下，几乎没有什么特征交叉，这时只能达到线性模型的效果
 - wide&deep的wide侧还是需要进行人工的特征构造
 - deepfm的fm侧只能构造特征之间的2阶关系  
 因此,DCN被提出了，它能对sparse和dense的输入自动学习特征交叉，可以有效地捕获有限阶（bounded degrees）上的有效特征交叉，无需人工特征工程或暴力搜索（exhaustive searching），并且计算代价较低。  
 
-### 网络结构
+## 网络结构
 ![image](/images/picture/DCN/DCN_model.png)
-#### 嵌入层
+### 嵌入层
 - 先对稀疏特征做embedding，并与稠密特征进行concat
 
-#### 交叉网络层
+### 交叉网络层
 - 每一层的输出计算:  
 \( x_{l+1} = x_{0}x_{l}^{T}w_{l}+x_{l} = f(x_{l},w_{l},b_{l})+x_{l} \)
 - 函数f部分刚好拟合的是\(x_{l+1}\)和\(x_{l}\)的残差
@@ -39,15 +39,18 @@ google在2017年提出的Deep&Cross Network模型简介
         xb = tf.tensordot(tf.reshape(x, [-1, 1, input_dim]), w, 1)
         return x0 * xb + b + x
       
-#### 深度网络
+### 深度网络
 这里就是使用了dnn,用于获取高阶非线性交叉
 
 
-#### Combination layer
+### Combination layer
 将cross network以及deep network的输出结果进行concat，然后将结果送入logits layer（标准逻辑回归）
 
-###总结
+## 总结
 - 一种新型的交叉网络结构，可以用来提取交叉组合特征，并不需要人为进行特征工程
 - 随着网络层数的增加，可以构造多项式阶的交叉特征
 - 时间和空间复杂度对于输入维度是线性关系，相对于DNN，没有增加参数量级
 - 与DC,DNN,FM,LR相比有更好的结果
+
+## 参考
+博客：https://xudongyang.coding.me/dcn/
