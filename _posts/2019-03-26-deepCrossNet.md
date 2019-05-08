@@ -19,17 +19,18 @@ google在2017年提出的Deep&Cross Network模型简介
 因此,DCN被提出了，它能对sparse和dense的输入自动学习特征交叉，可以有效地捕获有限阶（bounded degrees）上的有效特征交叉，无需人工特征工程或暴力搜索（exhaustive searching），并且计算代价较低。  
 
 ## 网络结构
-![image](/images/picture/DCN/DCN_model.png)
+![img]({{"images/picture/DCN/DCN_model.png" | relative_url }})  
+
 ### 嵌入层
 - 先对稀疏特征做embedding，并与稠密特征进行concat
 
 ### 交叉网络层
 - 每一层的输出计算:  
-\( x_{l+1} = x_{0}x_{l}^{T}w_{l}+x_{l} = f(x_{l},w_{l},b_{l})+x_{l} \)
-- 函数f部分刚好拟合的是\(x_{l+1}\)和\(x_{l}\)的残差
+$$ x_{l+1} = x_{0}x_{l}^{T}w_{l}+x_{l} = f(x_{l},w_{l},b_{l})+x_{l} $$
+- 函数f部分刚好拟合的是$$ x_{l+1} $$和$$ x_{l} $$的残差
 - 特征高阶交叉：特征的阶随着layer的深度而增长，对于第l层，它的最高阶是l+1,crossnet的结构使得它可以构造不同阶的交叉特征
-- 复杂度分析：参数的维度为，\(d×L_{C}×2\),其中d表示\(x_0\)的维度，\(L_{C}\)表示交叉网络层的深度。一个cross network的时间和空间复杂度对于输入维度是线性关系。因而，比起它的deep部分，一个cross network引入的复杂度微不足道，DCN的整体复杂度与传统的DNN在同一水平线上。
-- 实现技巧：第一眼看上面的计算公式，会认为计算\(x_{0}x_{l}^{T}\)需要的内存大小为：batch_size×d×d×4，但是如果先计算\(x_{l}^{T}w_{l}\)会得到一个标量，代码参考如下：
+- 复杂度分析：参数的维度为，$$ d×L_{C}×2 $$,其中d表示$$ x_0 $$的维度，$$ L_{C} $$表示交叉网络层的深度。一个cross network的时间和空间复杂度对于输入维度是线性关系。因而，比起它的deep部分，一个cross network引入的复杂度微不足道，DCN的整体复杂度与传统的DNN在同一水平线上。
+- 实现技巧：第一眼看上面的计算公式，会认为计算$$ x_{0}x_{l}^{T} $$需要的内存大小为：batch_size×d×d×4，但是如果先计算$$ x_{l}^{T}w_{l} $$会得到一个标量，代码参考如下：
     
       def cross_layer2(x0, x, name):
         with tf.variable_scope(name):
